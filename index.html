@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apartment Directory</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            max-width: 400px;
+            padding: 10px;
+            margin-top: 20px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        #apartmentList {
+            width: 100%;
+            max-width: 600px;
+            margin-top: 20px;
+        }
+
+        .apartment {
+            background-color: #fff;
+            margin-bottom: 15px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .apartment:hover {
+            transform: scale(1.02);
+            box-shadow: 2px 2px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .apartment p {
+            margin: 5px 0;
+            color: #555;
+        }
+
+        .apartment p strong {
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <h1>Apartment Directory</h1>
+    <input type="text" id="stateInput" placeholder="Enter state name" onkeyup="filterApartments()">
+    <div id="apartmentList"></div>
+
+    <script>
+        const apartments = [
+            { name: 'Sunrise Apartments', address: '123 Main St, Mumbai', cost: '₹50,00,000', contact: '9876543210', state: 'Maharashtra' },
+            { name: 'Ocean View', address: '456 Ocean Rd, Mumbai', cost: '₹75,00,000', contact: '9876543211', state: 'Maharashtra' },
+            { name: 'Green Acres', address: '789 Park Ave, Bangalore', cost: '₹60,00,000', contact: '9876543212', state: 'Karnataka' },
+            { name: 'Skyline Heights', address: '101 Hill St, Bangalore', cost: '₹80,00,000', contact: '9876543213', state: 'Karnataka' },
+            { name: 'Palm Residency', address: '102 Beach Rd, Chennai', cost: '₹55,00,000', contact: '9876543214', state: 'Tamil Nadu' },
+            { name: 'Urban Nest', address: '103 City St, Chennai', cost: '₹65,00,000', contact: '9876543215', state: 'Tamil Nadu' },
+            { name: 'Royal Residency', address: '104 Palace Rd, Lucknow', cost: '₹45,00,000', contact: '9876543216', state: 'Uttar Pradesh' },
+            { name: 'Elite Enclave', address: '105 Kingsway, Lucknow', cost: '₹55,00,000', contact: '9876543217', state: 'Uttar Pradesh' },
+            { name: 'Desert Springs', address: '106 Desert Rd, Jaipur', cost: '₹35,00,000', contact: '9876543218', state: 'Rajasthan' },
+            { name: 'Pink City Apartments', address: '107 Pink St, Jaipur', cost: '₹40,00,000', contact: '9876543219', state: 'Rajasthan' },
+            { name: 'Lakeview Towers', address: '108 Lake Rd, Kolkata', cost: '₹50,00,000', contact: '9876543220', state: 'West Bengal' },
+            { name: 'Cityscape Residences', address: '109 Market St, Kolkata', cost: '₹70,00,000', contact: '9876543221', state: 'West Bengal' },
+            { name: 'Green Valley', address: '110 Field Rd, Chandigarh', cost: '₹60,00,000', contact: '9876543222', state: 'Punjab' },
+            { name: 'Sunny Heights', address: '111 Bright St, Chandigarh', cost: '₹65,00,000', contact: '9876543223', state: 'Punjab' },
+            { name: 'Urban Oasis', address: '112 Metro St, Gurgaon', cost: '₹75,00,000', contact: '9876543224', state: 'Haryana' },
+            { name: 'Luxury Living', address: '113 Skyline Ave, Gurgaon', cost: '₹85,00,000', contact: '9876543225', state: 'Haryana' },
+            { name: 'Heritage Villas', address: '114 Heritage Rd, Ahmedabad', cost: '₹55,00,000', contact: '9876543226', state: 'Gujarat' },
+            { name: 'Modern Habitat', address: '115 Tech Park, Ahmedabad', cost: '₹65,00,000', contact: '9876543227', state: 'Gujarat' },
+            { name: 'City Lights', address: '116 Central Ave, New Delhi', cost: '₹90,00,000', contact: '9876543228', state: 'Delhi' },
+            { name: 'Metro Apartments', address: '117 Urban Rd, New Delhi', cost: '₹95,00,000', contact: '9876543229', state: 'Delhi' }
+        ];
+
+        function filterApartments() {
+            const stateInput = document.getElementById('stateInput').value.toLowerCase();
+            const filteredApartments = apartments.filter(apartment => apartment.state.toLowerCase().includes(stateInput));
+            displayApartments(filteredApartments);
+        }
+
+        function displayApartments(apartments) {
+            const apartmentList = document.getElementById('apartmentList');
+            apartmentList.innerHTML = '';
+
+            if (apartments.length === 0) {
+                apartmentList.innerHTML = '<p>No apartments found for the specified state.</p>';
+            } else {
+                apartments.forEach(apartment => {
+                    const apartmentDiv = document.createElement('div');
+                    apartmentDiv.classList.add('apartment');
+                    apartmentDiv.innerHTML = `
+                        <p><strong>Name:</strong> ${apartment.name}</p>
+                        <p><strong>Address:</strong> ${apartment.address}</p>
+                        <p><strong>Cost:</strong> ${apartment.cost}</p>
+                        <p><strong>Contact:</strong> ${apartment.contact}</p>
+                        <p><strong>State:</strong> ${apartment.state}</p>
+                    `;
+                    apartmentList.appendChild(apartmentDiv);
+                });
+            }
+        }
+
+        window.onload = () => {
+            displayApartments(apartments);
+        };
+    </script>
+</body>
+</html>
